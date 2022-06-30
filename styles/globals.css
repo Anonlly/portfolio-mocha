@@ -8,6 +8,11 @@
   --white : #F5E0DC;
   --yellow : #F9E2AF;
 }
+*{ 
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+   box-sizing: border-box; 
+}
 @font-face {
   font-family: 'Segoe Script';
   src: url('../public/SegoeScript.eot');

@@ -18,11 +18,15 @@ import {
   TabPanel,
   TabPanels,
   Progress,
+  IconButton,
   Img,
-  Wrap,
-  WrapItem,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  Spacer,
+  AspectRatio
 } from '@chakra-ui/react'
-import { ExternalLinkIcon } from "@chakra-ui/icons"
+import { ExternalLinkIcon, ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons"
 interface certificate {
   name: string,
   image: string,
@@ -67,6 +71,24 @@ function handleClick(index: number): void {
 }
 const Home: NextPage = () => {
   const [fill, setFill] = useState("#F38BA8")
+  const [carousel, setCarousel] = useState(1)
+  function changeCarousel(type:'next' | 'previous'):void{
+    if(type === 'next'){
+      setCarousel((prevState)=>{
+        if(prevState === 3){
+          return 1
+        }
+        return prevState + 1
+      })
+    }else{
+      setCarousel((prevState)=>{
+        if(prevState === 1){
+          return 3
+        }
+        return prevState - 1
+      })
+    }
+  }
   const eleRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const dimensions = useDimensions(eleRef, true)
   const [loading, setLoading] = useState(true)
@@ -241,10 +263,37 @@ const Home: NextPage = () => {
             ))}
           </Flex>
         </Flex>
-        <Flex flexDir={"column"} flexGrow={3} bg="#313244" w={"auto"} ml={5} mr={5} borderRadius={10} mt={30}>
+        <Flex flexDir={"column"} flexGrow={3} bg="#313244" w={"auto"} ml={5} mr={5} borderRadius={10} mt={30} p={dimensions && dimensions?.borderBox.width < 768? "none" :"20px"}>
 
           <Heading mt={5} textAlign={"center"} size="md" as={"h3"} fontWeight={200} w={"100%"}>Projects</Heading>
-          
+          <Flex alignItems={"center"} justifyContent="center">
+
+            <IconButton
+              colorScheme='pink'
+              aria-label='back'
+              variant="outline"
+              onClick={()=>{changeCarousel("previous")}}
+              icon={<ArrowBackIcon/>}
+            />
+            <Spacer/>
+            <AspectRatio mt={10} w="60vw" maxW="500px" alignSelf={"center"} ratio={16/9}>
+              <Image w="60vw" src={`/projects/${carousel}.webp`} fallbackSrc={carousel == 1 ? "/projects/1.webp" : `/projects/${carousel - 1}.webp`}/>
+            </AspectRatio>
+            <Spacer/>
+            <IconButton
+              colorScheme='pink'
+              variant="outline"
+              aria-label='back'
+              onClick={()=>{changeCarousel("next")}}
+              icon={<ArrowForwardIcon/>}
+            />
+          </Flex>
+          <Slider mt={10} value={carousel} min={0} max={3} step={1}>
+            <SliderTrack bg='gray.700'>
+              <Box position='relative' right={10} />
+              <SliderFilledTrack bg='pink.200' />
+            </SliderTrack>
+          </Slider>
         </Flex>
       </Flex>
     </div>
