@@ -264,7 +264,9 @@ const Home: NextPage = () => {
           </Flex>
         </Flex>
         <Flex flexDir={"column"} flexGrow={3} bg="#313244" w={"auto"} ml={5} mr={5} borderRadius={10} mt={30} p={dimensions && dimensions?.borderBox.width < 768? "none" :"20px"}>
-
+{/**
+ * Carousel component
+ */}
           <Heading mt={5} textAlign={"center"} size="md" as={"h3"} fontWeight={200} w={"100%"}>Projects</Heading>
           <Flex alignItems={"center"} justifyContent="center">
 
