@@ -37,7 +37,7 @@
 }
 .main {
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 3rem 0;
   background-color: var(--base);
   flex: 1;
   display: flex;
@@ -68,6 +68,9 @@
 @media screen and (max-width: 768px) {
   .illustSection{
     display: none;
+  }
+  .buttonFilled{
+    padding: 12px 40px !important;
   }
   
 }
@@ -115,7 +118,7 @@
   border: none;
   white-space: nowrap;
   color: var(--base);
-  padding: 12px 40px;
+  padding: 10px 40px;
   font-size: max(1.3vw, 15px);
   font-family: 'Roboto', sans-serif;  
   font-weight: 400;

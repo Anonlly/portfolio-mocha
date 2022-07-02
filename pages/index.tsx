@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
-import Preloader from "../component/preloader"
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import {
@@ -19,14 +18,37 @@ import {
   TabPanels,
   Progress,
   IconButton,
-  Img,
   Slider,
   SliderTrack,
   SliderFilledTrack,
   Spacer,
-  AspectRatio
+  AspectRatio,
+  Icon,
+  Hide,
+  Button,
+  Divider,
+  Stack,
+  Textarea,
+  useToast
 } from '@chakra-ui/react'
-import { ExternalLinkIcon, ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons"
+async function sendMessage(message:string):Promise<string> {
+  try{
+    const response = await fetch('https://discord.com/api/webhooks/900574162219827331/eqG3eQ6HKAe3Sq1Q6pyqgu3LGUH_m45qi814l9KJuECVAaPs6CJy1VvQJUv7ORNbAqBz', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({content: message})
+    })
+    return "success"
+  }
+  catch(e){
+    return "error"
+  }
+}
+
+import { FaGithub, FaDiscord, FaWhatsapp } from "react-icons/fa"
+import { ExternalLinkIcon, ArrowBackIcon, ArrowForwardIcon, EmailIcon } from "@chakra-ui/icons"
 interface certificate {
   name: string,
   image: string,
@@ -69,20 +91,26 @@ const certificates: Array<certificate> = [
 function handleClick(index: number): void {
   window.open(`http://${window.location.host}/${index}.pdf`)
 }
+function openSourceCode(): void {
+  window.open("https://github.com/Anonlly/portfolio-mocha")
+}
 const Home: NextPage = () => {
   const [fill, setFill] = useState("#F38BA8")
   const [carousel, setCarousel] = useState(1)
-  function changeCarousel(type:'next' | 'previous'):void{
-    if(type === 'next'){
-      setCarousel((prevState)=>{
-        if(prevState === 3){
+  const toast = useToast()
+  const [message, setMessage] = useState("")
+  const [illustChoice, setIllustChoice] = useState("night-calls")
+  function changeCarousel(type: 'next' | 'previous'): void {
+    if (type === 'next') {
+      setCarousel((prevState) => {
+        if (prevState === 3) {
           return 1
         }
         return prevState + 1
       })
-    }else{
-      setCarousel((prevState)=>{
-        if(prevState === 1){
+    } else {
+      setCarousel((prevState) => {
+        if (prevState === 1) {
           return 3
         }
         return prevState - 1
@@ -93,7 +121,7 @@ const Home: NextPage = () => {
   const dimensions = useDimensions(eleRef, true)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    console.log(dimensions)
+    setIllustChoice(["night-calls", "hacker"][Math.floor(Math.random() * 2)])
     setTimeout(() => { setLoading(false) }, 1000)
   }, [])
   return (
@@ -103,8 +131,11 @@ const Home: NextPage = () => {
         <meta name="description" content="Front-end developer portfolio" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Flex position={"absolute"} w={"93vw"} justifyContent="flex-end" mt="30px">
+        <Icon as={FaGithub} w={"20px"} h={"20px"} color="mochaPink.200" cursor={"pointer"} onClick={openSourceCode} />
+        <Text fontWeight={200} color="mochaPink.200" ml="5px" cursor={"pointer"} onClick={openSourceCode}>Source Code</Text>
+      </Flex>
       <main className={styles.main}>
-        <Preloader active={loading} />
         <div className={styles.textSection}>
           <h1 className={styles.title}>
             Ashja Radithya <br />Lesmana
@@ -232,7 +263,7 @@ const Home: NextPage = () => {
       <Flex w={"auto"} mr={5} ml={5} flexWrap="wrap" overflow='hidden'>
         <Flex flexDir={"column"} bg="#313244" w={"auto"} flexGrow={1} minH={300} mr={5} ml={5} borderRadius={10} alignItems='center' overflow='hidden' mt={30}>
           <Heading mt={5} textAlign={"center"} size="md" as={"h3"} fontWeight={200} w={"100%"}>Certificates</Heading>
-          <Flex flexDir={"column"} justifyContent={"center"} overflow='hidden' w="100%" mt={5}>
+          <Flex flexDir={"column"} justifyContent={"center"} overflow='hidden' w="100%" mt={5} pb={5}>
             {certificates.map((certificate, index) => (
               <Box key={index} borderWidth='1px' borderRadius='lg' overflow='hidden' w="auto" ml="2vw" mr="2vw" mt={3} cursor="pointer" onClick={() => { handleClick(index + 1) }}>
                 <Box p='3'>
@@ -263,7 +294,7 @@ const Home: NextPage = () => {
             ))}
           </Flex>
         </Flex>
-        <Flex flexDir={"column"} flexGrow={3} bg="#313244" w={"auto"} ml={5} mr={5} borderRadius={10} mt={30} p={dimensions && dimensions?.borderBox.width < 768? "none" :"20px"}>
+        <Flex flexDir={"column"} flexGrow={3} bg="#313244" w={"auto"} ml={5} mr={5} borderRadius={10} mt={30} p={dimensions && dimensions?.borderBox.width < 768 ? "none" : "20px"}>
           <Heading mt={5} textAlign={"center"} size="md" as={"h3"} fontWeight={200} w={"100%"}>Projects</Heading>
           <Flex alignItems={"center"} justifyContent="center">
 
@@ -271,20 +302,45 @@ const Home: NextPage = () => {
               colorScheme='pink'
               aria-label='back'
               variant="outline"
-              onClick={()=>{changeCarousel("previous")}}
-              icon={<ArrowBackIcon/>}
+              onClick={() => { changeCarousel("previous") }}
+              icon={<ArrowBackIcon />}
             />
-            <Spacer/>
-            <AspectRatio mt={10} w="60vw" maxW="500px" alignSelf={"center"} ratio={16/9}>
-              <Image w="60vw" src={`/projects/${carousel}.webp`} fallbackSrc={carousel == 1 ? "/projects/1.webp" : `/projects/${carousel - 1}.webp`}/>
-            </AspectRatio>
-            <Spacer/>
+            <Spacer />
+            {carousel == 1 ?
+              <AspectRatio mt={10} w="60vw" maxW="500px" alignSelf={"center"} ratio={16 / 9}>
+                <Image w="60vw" src={`/projects/1.webp`} />
+              </AspectRatio>
+              :
+              <Hide>
+                <Image w="60vw" src={`/projects/1.webp`} />
+              </Hide>
+            }
+            {carousel == 2 ?
+              <AspectRatio mt={10} w="60vw" maxW="500px" alignSelf={"center"} ratio={16 / 9}>
+
+                <Image w="60vw" src={`/projects/2.webp`} />
+              </AspectRatio>
+              :
+              <Hide>
+                <Image w="60vw" src={`/projects/2.webp`} />
+              </Hide>
+            }
+            {carousel == 3 ?
+              <AspectRatio mt={10} w="60vw" maxW="500px" alignSelf={"center"} ratio={16 / 9}>
+                <Image w="60vw" src={`/projects/3.webp`} />
+              </AspectRatio>
+              :
+              <Hide>
+                <Image w="60vw" src={`/projects/3.webp`} />
+              </Hide>
+            }
+            <Spacer />
             <IconButton
               colorScheme='pink'
               variant="outline"
               aria-label='back'
-              onClick={()=>{changeCarousel("next")}}
-              icon={<ArrowForwardIcon/>}
+              onClick={() => { changeCarousel("next") }}
+              icon={<ArrowForwardIcon />}
             />
           </Flex>
           <Slider mt={10} value={carousel} min={0} max={3} step={1}>
@@ -293,6 +349,55 @@ const Home: NextPage = () => {
               <SliderFilledTrack bg='pink.200' />
             </SliderTrack>
           </Slider>
+        </Flex>
+      </Flex>
+      <Heading id="contact" fontWeight={200} textAlign={"center"} mt={75}>Get In Touch</Heading>
+      <Flex justifyContent={"center"} alignItems="center" p={35} flexWrap="wrap">
+        <Flex borderRadius={10} w={dimensions && dimensions?.borderBox.width < 768? "100%" : "auto"} flexDir={"column"} bg={"#313244"} flexGrow={1} alignItems="center" justifyContent={"center"} p={5}>
+          <Heading id="profile" fontWeight={200} textAlign={"center"} size="lg" mt={15}>Contacts</Heading>
+          <Button mt={15} onClick={()=>{window.open("mailto:ashja234@gmail.com")}} variant={"outline"} colorScheme="mochaPink" leftIcon={<EmailIcon />}>Email <Code ml={2} fontWeight={200} colorScheme={"pink"} >ashja234@gmail.com</Code></Button>
+          <Button mt={2} onClick={()=>{window.open("https://discordapp.com/users/472019006409146370")}} variant={"outline"} colorScheme="blue" leftIcon={<Icon as={FaDiscord} />}>Discord Chat <Code ml={3} fontWeight={200} colorScheme={"blue"}>Valent#8893</Code></Button>
+          <Button mt={2} onClick={()=>{window.open("https://wa.me/6285710251303")}} variant={"outline"} colorScheme="whatsapp" leftIcon={<Icon as={FaWhatsapp}  />}>PM Me <Code ml={1} fontWeight={200} colorScheme={"whatsapp"}>+62 857-1025-1303</Code></Button>
+          <Text mt={3} color={"gray.300"}>Or</Text>
+          <Textarea
+            placeholder='Your Message...'
+            size='xs'
+            m={5}
+            value={message}
+            onChange={(e) => { 
+              setMessage(e.target.value) 
+            }}
+            variant="filled"
+            focusBorderColor="mochaPink.300"
+            colorScheme="mochaPink"
+            resize={"vertical"} />
+          <Button 
+            alignSelf={"flex-start"} 
+            mt={1} 
+            variant={"solid"} 
+            colorScheme="mochaPink" 
+            leftIcon={<ArrowForwardIcon />} 
+            onClick={()=>{
+              sendMessage(message).then(status=>{
+                if(status ==="success"){
+                  toast({
+                    title: "Message Sent",
+                    position: "bottom-left",
+                    variant: "left-accent",
+                    status: "success",
+                    isClosable:true
+                  })
+                }
+              })
+              setMessage("")
+            }}
+          >Send Message</Button>
+          <Text color="gray.500" mt={3} alignSelf={"flex-start"} fontSize={"11px"}>Put your email or contact address so i can reply :)</Text>
+        </Flex>
+        <Flex flexGrow={5} alignItems="center" justifyContent={"center"}>
+          <Hide below="md">
+            <Image maxW="30vw" src={`/${illustChoice}.svg`} />
+          </Hide>
         </Flex>
       </Flex>
     </div>
