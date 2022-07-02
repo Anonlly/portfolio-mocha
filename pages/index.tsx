@@ -29,12 +29,12 @@ import {
   Textarea,
   useToast
 } from '@chakra-ui/react'
-
 import { FaGithub, FaDiscord, FaWhatsapp, FaInstagram } from "react-icons/fa"
 import { ExternalLinkIcon, ArrowBackIcon, ArrowForwardIcon, EmailIcon } from "@chakra-ui/icons"
+import Preloader from '../component/preloader'
 async function sendMessage(message: string): Promise<string> {
   try {
-    const response = await fetch('https://discord.com/api/webhooks/900574162219827331/eqG3eQ6HKAe3Sq1Q6pyqgu3LGUH_m45qi814l9KJuECVAaPs6CJy1VvQJUv7ORNbAqBz', {
+    await fetch('https://discord.com/api/webhooks/900574162219827331/eqG3eQ6HKAe3Sq1Q6pyqgu3LGUH_m45qi814l9KJuECVAaPs6CJy1VvQJUv7ORNbAqBz', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -97,6 +97,7 @@ const Home: NextPage = () => {
   const [carousel, setCarousel] = useState(1)
   const toast = useToast()
   const [message, setMessage] = useState("")
+  const [isLoading, setLoading] = useState(true)
   const [illustChoice, setIllustChoice] = useState("night-calls")
   function changeCarousel(type: 'next' | 'previous'): void {
     if (type === 'next') {
@@ -117,13 +118,18 @@ const Home: NextPage = () => {
   }
   const eleRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const dimensions = useDimensions(eleRef, true)
-  const [loading, setLoading] = useState(true)
   useEffect(() => {
     setIllustChoice(["night-calls", "hacker"][Math.floor(Math.random() * 2)])
-    setTimeout(() => { setLoading(false) }, 1000)
+    const handleLoad = () => { 
+      setLoading(false) 
+    }
+    setTimeout(handleLoad, 3000)
+    window.addEventListener("load", handleLoad);
+    return () => window.removeEventListener("load", handleLoad);
   }, [])
   return (
-    <div className={styles.container}>
+    <div id="container" className={styles.container}>
+      <Preloader active={isLoading}/>
       <Head>
         <title>Ashja Radithya Lesmana</title>
         <meta name="description" content="Front-end developer portfolio" />
@@ -404,20 +410,20 @@ const Home: NextPage = () => {
           aria-label='Github'
           colorScheme={"mochaPink"}
           variant="outline"
-          onClick={()=>{window.open("https://github.com/Anonlly")}}
+          onClick={() => { window.open("https://github.com/Anonlly") }}
           ml={5}
           icon={<Icon as={FaGithub} />} />
         <IconButton
           aria-label='Instagram'
           colorScheme={"mochaPink"}
-          onClick={()=>{window.open("https://www.instagram.com/ashja.rl/")}}
+          onClick={() => { window.open("https://www.instagram.com/ashja.rl/") }}
           variant="outline"
           ml={2}
           icon={<Icon as={FaInstagram} />} />
         <IconButton
           aria-label='Whatsapp'
           colorScheme={"mochaPink"}
-          onClick={()=>{window.open("https://wa.me/6285710251303")}}
+          onClick={() => { window.open("https://wa.me/6285710251303") }}
           variant="outline"
           ml={2}
           icon={<Icon as={FaWhatsapp} />} />
