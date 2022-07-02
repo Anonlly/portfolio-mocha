@@ -15,11 +15,11 @@
 }
 @font-face {
   font-family: 'Segoe Script';
-  src: url('../public/SegoeScript.eot');
-  src: url('../public/SegoeScript.eot?#iefix') format('embedded-opentype'),
-       url('../public/SegoeScript.woff') format('woff'), 
-       url('../public/segoesc.ttf')  format('truetype'), 
-       url('../public/SegoeScript.svg#svgFontName') format('svg'); 
+  src: url('/SegoeScript.eot');
+  src: url('/SegoeScript.eot?#iefix') format('embedded-opentype'),
+       url('/SegoeScript.woff') format('woff'), 
+       url('/segoesc.ttf')  format('truetype'), 
+       url('/SegoeScript.svg#svgFontName') format('svg'); 
 }
 html,
 body {
