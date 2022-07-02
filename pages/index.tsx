@@ -26,29 +26,27 @@ import {
   Icon,
   Hide,
   Button,
-  Divider,
-  Stack,
   Textarea,
   useToast
 } from '@chakra-ui/react'
-async function sendMessage(message:string):Promise<string> {
-  try{
+
+import { FaGithub, FaDiscord, FaWhatsapp, FaInstagram } from "react-icons/fa"
+import { ExternalLinkIcon, ArrowBackIcon, ArrowForwardIcon, EmailIcon } from "@chakra-ui/icons"
+async function sendMessage(message: string): Promise<string> {
+  try {
     const response = await fetch('https://discord.com/api/webhooks/900574162219827331/eqG3eQ6HKAe3Sq1Q6pyqgu3LGUH_m45qi814l9KJuECVAaPs6CJy1VvQJUv7ORNbAqBz', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({content: message})
+      body: JSON.stringify({ content: message })
     })
     return "success"
   }
-  catch(e){
+  catch (e) {
     return "error"
   }
 }
-
-import { FaGithub, FaDiscord, FaWhatsapp } from "react-icons/fa"
-import { ExternalLinkIcon, ArrowBackIcon, ArrowForwardIcon, EmailIcon } from "@chakra-ui/icons"
 interface certificate {
   name: string,
   image: string,
@@ -183,7 +181,7 @@ const Home: NextPage = () => {
           <Text
             m={dimensions && dimensions?.borderBox.width < 768 ? "20px" : "10px"}
             fontSize={dimensions && dimensions?.borderBox.width < 768 ? "sm" : "md"}
-            maxW={500}>Hi, I'm Ashja, a <Code colorScheme={"pink"}>Front-End Web Developer</Code> <br />
+            maxW={500}>Hi, I&aposm Ashja, a <Code colorScheme={"pink"}>Front-End Web Developer</Code> <br />
             experienced in Javascript, more specifically React.JS. {dimensions && dimensions?.borderBox.width < 768 ? <></> : <br />}
             Full-Stack Developer role is also viable for me, {dimensions && dimensions?.borderBox.width < 768 ? <></> : <br />}
             utilizing serverless technology plus React.JS producing {dimensions && dimensions?.borderBox.width < 768 ? <></> : <br />}
@@ -353,39 +351,39 @@ const Home: NextPage = () => {
       </Flex>
       <Heading id="contact" fontWeight={200} textAlign={"center"} mt={75}>Get In Touch</Heading>
       <Flex justifyContent={"center"} alignItems="center" p={35} flexWrap="wrap">
-        <Flex borderRadius={10} w={dimensions && dimensions?.borderBox.width < 768? "100%" : "auto"} flexDir={"column"} bg={"#313244"} flexGrow={1} alignItems="center" justifyContent={"center"} p={5}>
+        <Flex borderRadius={10} w={dimensions && dimensions?.borderBox.width < 768 ? "100%" : "auto"} flexDir={"column"} bg={"#313244"} flexGrow={1} alignItems="center" justifyContent={"center"} p={5}>
           <Heading id="profile" fontWeight={200} textAlign={"center"} size="lg" mt={15}>Contacts</Heading>
-          <Button mt={15} onClick={()=>{window.open("mailto:ashja234@gmail.com")}} variant={"outline"} colorScheme="mochaPink" leftIcon={<EmailIcon />}>Email <Code ml={2} fontWeight={200} colorScheme={"pink"} >ashja234@gmail.com</Code></Button>
-          <Button mt={2} onClick={()=>{window.open("https://discordapp.com/users/472019006409146370")}} variant={"outline"} colorScheme="blue" leftIcon={<Icon as={FaDiscord} />}>Discord Chat <Code ml={3} fontWeight={200} colorScheme={"blue"}>Valent#8893</Code></Button>
-          <Button mt={2} onClick={()=>{window.open("https://wa.me/6285710251303")}} variant={"outline"} colorScheme="whatsapp" leftIcon={<Icon as={FaWhatsapp}  />}>PM Me <Code ml={1} fontWeight={200} colorScheme={"whatsapp"}>+62 857-1025-1303</Code></Button>
+          <Button mt={15} onClick={() => { window.open("mailto:ashja234@gmail.com") }} variant={"outline"} colorScheme="mochaPink" leftIcon={<EmailIcon />}>Email <Code ml={2} fontWeight={200} colorScheme={"pink"} >ashja234@gmail.com</Code></Button>
+          <Button mt={2} onClick={() => { window.open("https://discordapp.com/users/472019006409146370") }} variant={"outline"} colorScheme="blue" leftIcon={<Icon as={FaDiscord} />}>Discord Chat <Code ml={3} fontWeight={200} colorScheme={"blue"}>Valent#8893</Code></Button>
+          <Button mt={2} onClick={() => { window.open("https://wa.me/6285710251303") }} variant={"outline"} colorScheme="whatsapp" leftIcon={<Icon as={FaWhatsapp} />}>PM Me <Code ml={1} fontWeight={200} colorScheme={"whatsapp"}>+62 857-1025-1303</Code></Button>
           <Text mt={3} color={"gray.300"}>Or</Text>
           <Textarea
             placeholder='Your Message...'
             size='xs'
             m={5}
             value={message}
-            onChange={(e) => { 
-              setMessage(e.target.value) 
+            onChange={(e) => {
+              setMessage(e.target.value)
             }}
             variant="filled"
             focusBorderColor="mochaPink.300"
             colorScheme="mochaPink"
             resize={"vertical"} />
-          <Button 
-            alignSelf={"flex-start"} 
-            mt={1} 
-            variant={"solid"} 
-            colorScheme="mochaPink" 
-            leftIcon={<ArrowForwardIcon />} 
-            onClick={()=>{
-              sendMessage(message).then(status=>{
-                if(status ==="success"){
+          <Button
+            alignSelf={"flex-start"}
+            mt={1}
+            variant={"solid"}
+            colorScheme="mochaPink"
+            leftIcon={<ArrowForwardIcon />}
+            onClick={() => {
+              sendMessage(message).then(status => {
+                if (status === "success") {
                   toast({
                     title: "Message Sent",
                     position: "bottom-left",
                     variant: "left-accent",
                     status: "success",
-                    isClosable:true
+                    isClosable: true
                   })
                 }
               })
@@ -399,6 +397,30 @@ const Home: NextPage = () => {
             <Image maxW="30vw" src={`/${illustChoice}.svg`} />
           </Hide>
         </Flex>
+      </Flex>
+      <Flex mt={5} pb={2} pt={2} justifyContent={"center"} alignItems="center" bg="#313244">
+        <Text m={15} color="mochaPink.300">Mocha Portfolio, Made with Ambition not Love.</Text>
+        <IconButton
+          aria-label='Github'
+          colorScheme={"mochaPink"}
+          variant="outline"
+          onClick={()=>{window.open("https://github.com/Anonlly")}}
+          ml={5}
+          icon={<Icon as={FaGithub} />} />
+        <IconButton
+          aria-label='Instagram'
+          colorScheme={"mochaPink"}
+          onClick={()=>{window.open("https://www.instagram.com/ashja.rl/")}}
+          variant="outline"
+          ml={2}
+          icon={<Icon as={FaInstagram} />} />
+        <IconButton
+          aria-label='Whatsapp'
+          colorScheme={"mochaPink"}
+          onClick={()=>{window.open("https://wa.me/6285710251303")}}
+          variant="outline"
+          ml={2}
+          icon={<Icon as={FaWhatsapp} />} />
       </Flex>
     </div>
   )
