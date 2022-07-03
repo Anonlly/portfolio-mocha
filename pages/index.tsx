@@ -120,16 +120,16 @@ const Home: NextPage = () => {
   const dimensions = useDimensions(eleRef, true)
   useEffect(() => {
     setIllustChoice(["night-calls", "hacker"][Math.floor(Math.random() * 2)])
-    const handleLoad = () => { 
-      setLoading(false) 
+    const handleLoad = () => {
+      setLoading(false)
     }
-    setTimeout(handleLoad, 3000)
+    setTimeout(handleLoad, 1000)
     window.addEventListener("load", handleLoad);
     return () => window.removeEventListener("load", handleLoad);
   }, [])
   return (
     <div id="container" className={styles.container}>
-      <Preloader active={isLoading}/>
+      <Preloader active={isLoading} />
       <Head>
         <title>Ashja Radithya Lesmana</title>
         <meta name="description" content="Front-end developer portfolio" />
@@ -146,44 +146,54 @@ const Home: NextPage = () => {
           </h1>
           <div className={styles.roles}>
             <div className={styles.role}>
-              <img src="/web.svg" />
+              <img alt="web" src="/web.svg" />
               <span>Front-end Developer</span>
             </div>
             <div className={styles.role}>
-              <img src="/analytic.svg" />
+              <img alt="analytic" src="/analytic.svg" />
               <span>Data Analyst</span>
             </div>
             <div className={styles.role}>
-              <img src="/javascript.svg" />
+              <img alt="javascript" src="/javascript.svg" />
               <span>Javascript Developer</span>
             </div>
           </div>
           <div className={styles.action}>
-            <a className={styles.buttonWrapper} onMouseOver={() => { setFill("#181825") }} onMouseLeave={() => { setFill("#F38BA8") }} href="#contact">
-              <div className={styles.filler}>
-              </div>
-              <button className={styles.buttonOutline}>
-                {fill === "#181825" ? <img src="/mail-alt.svg" /> : <img src="/mail.svg" />}
-                <div>Contact Me</div>
-              </button>
-            </a>
-            <a href="#profile">
-              <button className={styles.buttonFilled}>
-                My Profile
-              </button>
-            </a>
+            <Button
+              colorScheme={"pink"}
+              variant={"outline"}
+              fontWeight={200}
+              leftIcon={<EmailIcon />}
+              onClick={() => {
+                document.getElementById("contact")?.scrollIntoView()
+              }}>
+
+              Contact Me
+            </Button>
+            <Button
+              colorScheme={"pink"}
+              variant="solid"
+              fontWeight={400}
+              ml={5}
+              rightIcon={<ArrowForwardIcon />}
+              onClick={() => {
+                document.getElementById("profile")?.scrollIntoView()
+
+              }}>
+              My Profile
+            </Button>
           </div>
 
         </div>
         <div className={styles.illustSection}>
-          <img src="/moonlight.svg" />
+          <img alt="Moonlight Illustration" src="/moonlight.svg" />
           <span>Aesthetic Illustration by <a rel="noopener noreferrer" href='https://undraw.co' target="_blank">Undraw</a></span>
         </div>
       </main>
       <Heading id="profile" fontWeight={200} textAlign={"center"} mt={30}>Profile</Heading>
       <Flex ref={eleRef} mr={5} ml={5} id="profile" w={"auto"} flexDir="row" flexWrap={"wrap"} justifyContent="center" alignItems={"center"}>
         <Flex bg="#313244" mr={5} ml={5} flexGrow={1} minW={300} minH={314} mt={30} borderRadius={10} flexWrap={"wrap"} flexDirection="row" alignItems="center" justifyContent={dimensions && dimensions?.borderBox.width < 768 ? "center" : ""}>
-          <Image src={"/photo.webp"} maxW={210} maxH={260} m={"20px"} justifySelf={"flex-start"} />
+          <Image alt="My Graduation Photo" src={"/photo.webp"} maxW={210} maxH={260} m={"20px"} justifySelf={"flex-start"} />
           <Text
             m={dimensions && dimensions?.borderBox.width < 768 ? "20px" : "10px"}
             fontSize={dimensions && dimensions?.borderBox.width < 768 ? "sm" : "md"}
@@ -312,30 +322,29 @@ const Home: NextPage = () => {
             <Spacer />
             {carousel == 1 ?
               <AspectRatio mt={10} w="60vw" maxW="500px" alignSelf={"center"} ratio={16 / 9}>
-                <Image w="60vw" src={`/projects/1.webp`} />
+                <Image alt="Project 1" w="60vw" src={`/projects/1.webp`} cursor="pointer" onClick={()=>{window.open("http://" + window.location.host + "/projects/1.jpg")}}/>
               </AspectRatio>
               :
               <Hide>
-                <Image w="60vw" src={`/projects/1.webp`} />
+                <Image alt="Project 1" w="60vw" src={`/projects/1.webp`} />
               </Hide>
             }
             {carousel == 2 ?
               <AspectRatio mt={10} w="60vw" maxW="500px" alignSelf={"center"} ratio={16 / 9}>
-
-                <Image w="60vw" src={`/projects/2.webp`} />
+                <Image alt="Project 2" w="60vw" src={`/projects/2.webp`} cursor="pointer" onClick={()=>{window.open("http://" + window.location.host + "/projects/2.jpg")}}/>
               </AspectRatio>
               :
               <Hide>
-                <Image w="60vw" src={`/projects/2.webp`} />
+                <Image alt="Project 2" w="60vw" src={`/projects/2.webp`} />
               </Hide>
             }
             {carousel == 3 ?
               <AspectRatio mt={10} w="60vw" maxW="500px" alignSelf={"center"} ratio={16 / 9}>
-                <Image w="60vw" src={`/projects/3.webp`} />
+                <Image alt="Project 3" w="60vw" src={`/projects/3.webp`} cursor="pointer" onClick={()=>{window.open("http://" + window.location.host + "/projects/3.jpg")}}/>
               </AspectRatio>
               :
               <Hide>
-                <Image w="60vw" src={`/projects/3.webp`} />
+                <Image alt="Project 3" w="60vw" src={`/projects/3.webp`} />
               </Hide>
             }
             <Spacer />
@@ -400,7 +409,7 @@ const Home: NextPage = () => {
         </Flex>
         <Flex flexGrow={5} alignItems="center" justifyContent={"center"}>
           <Hide below="md">
-            <Image maxW="30vw" src={`/${illustChoice}.svg`} />
+            <Image alt="Get in Touch Illustration" maxW="30vw" src={`/${illustChoice}.svg`} />
           </Hide>
         </Flex>
       </Flex>
