@@ -187,7 +187,7 @@ const Home: NextPage = () => {
           <Text
             m={dimensions && dimensions?.borderBox.width < 768 ? "20px" : "10px"}
             fontSize={dimensions && dimensions?.borderBox.width < 768 ? "sm" : "md"}
-            maxW={500}>Hi, I&aposm Ashja, a <Code colorScheme={"pink"}>Front-End Web Developer</Code> <br />
+            maxW={500}>Hi, I&#39;m Ashja, a <Code colorScheme={"pink"}>Front-End Web Developer</Code> <br />
             experienced in Javascript, more specifically React.JS. {dimensions && dimensions?.borderBox.width < 768 ? <></> : <br />}
             Full-Stack Developer role is also viable for me, {dimensions && dimensions?.borderBox.width < 768 ? <></> : <br />}
             utilizing serverless technology plus React.JS producing {dimensions && dimensions?.borderBox.width < 768 ? <></> : <br />}
